@@ -2,6 +2,10 @@
 
 This project is a simple Task Management API that allows users to create, view, edit, mark as completed, and delete tasks. The API is designed with user authentication using JWT tokens.
 
+## Postman Documentation
+- [Link](https://documenter.getpostman.com/view/24067724/2s9YysE2rE)
+
+
 ## Table of Contents
 
 - [Routes](#routes)
@@ -19,7 +23,7 @@ This project is a simple Task Management API that allows users to create, view, 
 
 ### 1. Login
 
-- **Route**: `POST /login`
+- **Route**: `POST /api/login`
 - **Description**: Login user and return JWT token and user object.
 - **Access**: Public
 
@@ -36,7 +40,7 @@ This project is a simple Task Management API that allows users to create, view, 
 
 ### 2. Register
 
-- **Route**: `POST /register`
+- **Route**: `POST /api/register`
 - **Description**: Register user and return JWT token and user object.
 - **Access**: Public
 
@@ -55,7 +59,7 @@ This project is a simple Task Management API that allows users to create, view, 
 
 ### 3. Add Task
 
-- **Route**: `POST /add`
+- **Route**: `POST /api/task/add`
 - **Description**: Add a task to the todo list with title, description, and due date.
 - **Access**: Private
 
@@ -74,7 +78,7 @@ This project is a simple Task Management API that allows users to create, view, 
 
 ### 4. Get All Tasks
 
-- **Route**: `GET /get/all`
+- **Route**: `GET /api/task/get/all`
 - **Description**: Get all tasks.
 - **Access**: Private
 
@@ -84,7 +88,7 @@ This project is a simple Task Management API that allows users to create, view, 
 
 ### 5. Get Completed Tasks
 
-- **Route**: `GET /get/completed`
+- **Route**: `GET /api/task/get/completed`
 - **Description**: Get all tasks that are completed.
 - **Access**: Private
 
@@ -98,7 +102,7 @@ This project is a simple Task Management API that allows users to create, view, 
 
 ### 6. Get Due Tasks
 
-- **Route**: `GET /get/due`
+- **Route**: `GET /api/task/get/due`
 - **Description**: Get all tasks that are due.
 - **Access**: Private
 
@@ -112,7 +116,7 @@ This project is a simple Task Management API that allows users to create, view, 
 
 ### 7. Mark Task as Complete
 
-- **Route**: `POST /mark`
+- **Route**: `POST /api/task/mark`
 - **Description**: Mark a task as complete.
 - **Access**: Private
 
@@ -128,7 +132,7 @@ This project is a simple Task Management API that allows users to create, view, 
 
 ### 8. Edit Task
 
-- **Route**: `PATCH /`
+- **Route**: `PATCH /api/task`
 - **Description**: Edit a task.
 - **Access**: Private
 
@@ -145,7 +149,7 @@ This project is a simple Task Management API that allows users to create, view, 
 
 ### 9. Delete Task
 
-- **Route**: `DELETE /`
+- **Route**: `DELETE /api/task`
 - **Description**: Delete a task.
 - **Access**: Private
 
@@ -155,4 +159,4 @@ This project is a simple Task Management API that allows users to create, view, 
 - Body:
   - `id`: Task ID
 
-Feel free to contribute and enhance the functionalities of this simple Task Management API.
+
