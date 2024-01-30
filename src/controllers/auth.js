@@ -104,7 +104,6 @@ exports.login = async (req, res, next) => {
       data: data,
       token: token,
     });
-
   } catch (err) {
     console.log(err);
     return res.status(500).json({

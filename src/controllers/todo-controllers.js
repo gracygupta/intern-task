@@ -33,7 +33,11 @@ exports.add_task = async (req, res, next) => {
       });
     }
 
-    if(!req.body.dueDate || req.body.dueDate == "" || req.body.dueDate == undefined){
+    if (
+      !req.body.dueDate ||
+      req.body.dueDate == "" ||
+      req.body.dueDate == undefined
+    ) {
       return res.status(400).json({
         success: false,
         message: "invalid due date",
@@ -72,10 +76,9 @@ exports.add_task = async (req, res, next) => {
 exports.delete_task = async (req, res, next) => {
   try {
     const { id } = req.body;
-    const user  = req.user;
-    const task = await Task.findOne({ "$and": [{_id: id}, {user: user.id}]});
-    console.log(task);
-    
+    const user = req.user;
+    const task = await Task.findOne({ $and: [{ _id: id }, { user: user.id }] });
+
     if (!task) {
       return res.status(400).json({
         success: false,
@@ -101,7 +104,7 @@ exports.mark_task = async (req, res, next) => {
   try {
     const { id } = req.body;
     const user = req.user;
-    const task = await Task.findOne({ "$and": [{_id: id}, {user: user.id}]});
+    const task = await Task.findOne({ $and: [{ _id: id }, { user: user.id }] });
     if (!task) {
       return res.status(400).json({
         success: false,
@@ -145,19 +148,19 @@ exports.mark_task = async (req, res, next) => {
 exports.get_all_tasks = async (req, res, next) => {
   try {
     const user = req.user;
-    const tasks = await Task.find({user: user.id});
-    if(tasks.length == 0){
-        return res.status(200).json({
-            success: true,
-            message: "no task found",
-            data: []
-        })
+    const tasks = await Task.find({ user: user.id });
+    if (tasks.length == 0) {
+      return res.status(200).json({
+        success: true,
+        message: "no task found",
+        data: [],
+      });
     }
     return res.status(200).json({
-        success: true,
-        message: "tasks found",
-        data: tasks
-    })
+      success: true,
+      message: "tasks found",
+      data: tasks,
+    });
   } catch (err) {
     console.log(err);
     return res.status(500).json({
@@ -170,19 +173,21 @@ exports.get_all_tasks = async (req, res, next) => {
 exports.get_completed_tasks = async (req, res, next) => {
   try {
     const user = req.user;
-    const tasks = await Task.find({"$and": [{user: user.id},{completed: true}]});
-    if(tasks.length == 0){
-        return res.status(200).json({
-            success: true,
-            message: "no task completed",
-            data: []
-        })
+    const tasks = await Task.find({
+      $and: [{ user: user.id }, { completed: true }],
+    });
+    if (tasks.length == 0) {
+      return res.status(200).json({
+        success: true,
+        message: "no task completed",
+        data: [],
+      });
     }
     return res.status(200).json({
-        success: true,
-        message: "tasks found",
-        data: tasks
-    })
+      success: true,
+      message: "tasks found",
+      data: tasks,
+    });
   } catch (err) {
     console.log(err);
     return res.status(500).json({
@@ -193,61 +198,69 @@ exports.get_completed_tasks = async (req, res, next) => {
 };
 
 exports.get_due_tasks = async (req, res, next) => {
-    try {
-        const user = req.user;
-    const tasks = await Task.find({"$and": [{user: user.id},{completed: false}]});
-    if(tasks.length == 0){
-        return res.status(200).json({
-            success: true,
-            message: "no due task",
-            data: []
-        })
-    }
-    return res.status(200).json({
+  try {
+    const user = req.user;
+    const tasks = await Task.find({
+      $and: [{ user: user.id }, { completed: false }],
+    });
+    if (tasks.length == 0) {
+      return res.status(200).json({
         success: true,
-        message: "tasks found",
-        data: tasks
-    })
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({
-        success: false,
-        message: "internal server error",
+        message: "no due task",
+        data: [],
       });
     }
-  };
+    return res.status(200).json({
+      success: true,
+      message: "tasks found",
+      data: tasks,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      message: "internal server error",
+    });
+  }
+};
 
 exports.edit_task = async (req, res, next) => {
   try {
     const id = req.body.id;
     const user = req.user;
-    const task = await Task.findOne({ "$and": [{_id: id}, {user: user.id}]});
-    if(req.body.title){
-        task.title = req.body.title;
+    const task = await Task.findOne({ $and: [{ _id: id }, { user: user.id }] });
+    if (!task) {
+      return res.status(400).json({
+        success: false,
+        message: "task not found",
+      });
     }
-    if(req.body.description){
-        task.description = req.body.description;
+    if (req.body.title) {
+      task.title = req.body.title;
     }
-    if(req.body.dueDate){
-        task.dueDate = convertTime(req.body.dueDate);
+    if (req.body.description) {
+      task.description = req.body.description;
+    }
+    if (req.body.dueDate) {
+      task.dueDate = convertTime(req.body.dueDate);
     }
 
     task
-    .save()
-    .then(() => {
-      return res.status(200).json({
-        success: true,
-        message: "task edited",
-        data: task,
+      .save()
+      .then(() => {
+        return res.status(200).json({
+          success: true,
+          message: "task edited",
+          data: task,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json({
+          success: false,
+          message: "some error occured",
+        });
       });
-    })
-    .catch((err) => {
-      console.log(err);
-      return res.status(500).json({
-        success: false,
-        message: "some error occured",
-      });
-    });
   } catch (err) {
     console.log(err);
     return res.status(500).json({

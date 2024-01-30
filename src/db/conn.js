@@ -14,4 +14,4 @@ exports.dbConnect = () => {
       console.log("DB Connection Successful");
     })
     .catch((err) => console.log(err));
-}
+};
